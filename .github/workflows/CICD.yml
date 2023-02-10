@@ -79,7 +79,7 @@ jobs:
       - name: Substitute environment variables   
         uses: danielr1996/envsubst-action@1.1.0
         env:
-          MONGDB_URI: 'mongodb://hellowolrddb:IajM5kFaKfec1mwyGsMMUcpj2RbRzhBQz5ZHr7jUDLhfLiVmAgF2JGd1DXdJehzaDLVDOxx8pDfdACDb4l4uIg==@hellowolrddb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@hellowolrddb@'
+          MONGODB_URI: 'mongodb://hellowolrddb:IajM5kFaKfec1mwyGsMMUcpj2RbRzhBQz5ZHr7jUDLhfLiVmAgF2JGd1DXdJehzaDLVDOxx8pDfdACDb4l4uIg==@hellowolrddb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@hellowolrddb@'
           AZURE_CONTAINER_REGISTRY: githubworkflow.azurecr.io
           CONTAINER_NAME: hello-world-app:${{ github.sha }}
         with:
