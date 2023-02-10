@@ -1,5 +1,8 @@
 name: Build and Deploy to Azure Env
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+env:
+  AZURE_CONTAINER_REGISTRY_SERVER: 'githubworkflow.azurecr.io'
 on:   
   push:
     branches: ['master']
@@ -25,9 +28,9 @@ jobs:
           # Container registry username
           username: 'githubworkflow'
           # Container registry password
-          password: 'rPvPS8ldsFJyj5dvkR+BVDR/FMlCl1Xe3ilBS6PYPZ+ACRDiDtyl'
+          password: ${{ secrets.CONTAINER_RAGISTRY_PASSWORD }}
           # Container registry server url
-          login-server: 'githubworkflow.azurecr.io'
+          login-server: ${{ env.AZURE_CONTAINER_REGISTRY_SERVER }}
         
       - name: Build and push
         uses: docker/build-push-action@v4
@@ -53,9 +56,9 @@ jobs:
       - name: Azure login
         uses: azure/login@v1.4.6
         with:
-          client-id: 'c43801b5-0c3b-433f-a4ee-bf9c633f5632'
-          tenant-id: '82cb0d5a-f537-44bc-9927-f4a6b3456d9e'
-          subscription-id: '790b1e5c-2be9-4fc0-b83d-ef829ea097d7'
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     
       - name: Setup kubelogin
         uses: Azure/use-kubelogin@v1
@@ -79,7 +82,7 @@ jobs:
       - name: Substitute environment variables   
         uses: danielr1996/envsubst-action@1.1.0
         env:
-          MONGODB_URI: 'mongodb://hellowolrddb:IajM5kFaKfec1mwyGsMMUcpj2RbRzhBQz5ZHr7jUDLhfLiVmAgF2JGd1DXdJehzaDLVDOxx8pDfdACDb4l4uIg==@hellowolrddb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@hellowolrddb@'
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
           AZURE_CONTAINER_REGISTRY: githubworkflow.azurecr.io
           CONTAINER_NAME: hello-world-app:${{ github.sha }}
         with:
